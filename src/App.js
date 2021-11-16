@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import HomePage from "./Pages/HomePage";
+import LandingPage from "./Pages/LandingPage";
+import SignupPage from "./Pages/SignupPage";
 
+import { firebaseConfig } from "./firebase/config";
+
+import { AuthContext } from "./store/auth-context";
 function App() {
+  const { isAuth } = useContext(AuthContext);
+  console.log(isAuth);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Routes>
+        {!isAuth && (
+          <>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="signup" element={<SignupPage />} />
+          </>
+        )}
+
+        {isAuth && <Route path="home/*" element={<HomePage />} />}
+        {isAuth && <Route path="/" element={<Navigate to="home" />} />}
+        
+      </Routes>
+    </Layout>
   );
 }
 
