@@ -4,7 +4,7 @@ import { ref, deleteObject } from "firebase/storage";
 import { storage } from "../firebase/config";
 import { Col, Card, Modal, Image, Button } from "react-bootstrap";
 import { AuthContext } from "../store/auth-context";
-import { setUserProperties } from "@firebase/analytics";
+import { BsFillTrashFill } from "react-icons/bs";
 import LoadingSpinner from "./UI/LoadingSpinner";
 
 const GalleryItem = ({ item, onDelete }) => {
@@ -60,7 +60,7 @@ const GalleryItem = ({ item, onDelete }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={deleteHandler}>
-            Delete
+            <BsFillTrashFill style={{ fontSize: "1.3rem" }} />
           </Button>
         </Modal.Footer>
       </Modal>

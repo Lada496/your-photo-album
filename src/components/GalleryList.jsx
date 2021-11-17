@@ -1,11 +1,14 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { Row, Form, FormControl, Button } from "react-bootstrap";
-import { AuthContext } from "../store/auth-context";
+import { FiSearch } from "react-icons/fi";
 import GalleryItem from "./GalleryItem";
 import LoadingSpinner from "./UI/LoadingSpinner";
+import { AuthContext } from "../store/auth-context";
+import Message from "./UI/Message";
 
 const GalleryList = () => {
+  const message = "No Item uploaded.";
   const [query, setQuery] = useState("");
   const { uid } = useContext(AuthContext);
   const [list, setList] = useState([]);
@@ -66,14 +69,16 @@ const GalleryList = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <Button type="submit" variant="outline-secondary">
-          Search
+        <Button type="submit" variant="secondary">
+          <FiSearch style={{ fontSize: "1.3rem" }} />
         </Button>
       </Form>
       <Row style={{ padding: "1.4rem" }}>
-        {fileredList.map((item) => (
-          <GalleryItem key={item.id} item={item} onDelete={deleteHandler} />
-        ))}
+        {fileredList.length !== 0 &&
+          fileredList.map((item) => (
+            <GalleryItem key={item.id} item={item} onDelete={deleteHandler} />
+          ))}
+        {fileredList.length === 0 && <Message text={message} />}
       </Row>
     </>
   );

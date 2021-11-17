@@ -13,10 +13,9 @@ const Signup = () => {
   const auth = getAuth();
   const {
     register,
-    formState: { errors, dirtyFields },
+    formState: { errors },
     handleSubmit,
     watch,
-    // reset,
   } = useForm({
     mode: "onBlur", // "onChange"
   });
@@ -26,11 +25,6 @@ const Signup = () => {
         const user = userCredential.user;
         login(user.uid);
         navigate("/home");
-        // resetEmailInput();
-        // resetPassword1Input();
-        // resetPassword2Input();
-        // dispatch(authActions.login(user.uid));
-        // history.replace("/home");
       })
       .catch((error) => {
         const errorMessage = error.message;
