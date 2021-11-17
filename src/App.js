@@ -9,6 +9,7 @@ import SignupPage from "./Pages/SignupPage";
 import { firebaseConfig } from "./firebase/config";
 
 import { AuthContext } from "./store/auth-context";
+import NotFoundPage from "./Pages/NotFoundPage";
 initializeApp(firebaseConfig);
 function App() {
   const { isAuth } = useContext(AuthContext);
@@ -24,7 +25,7 @@ function App() {
 
         {isAuth && <Route path="home/*" element={<HomePage />} />}
         {isAuth && <Route path="/" element={<Navigate to="home" />} />}
-        {!isAuth && <Route path="*" element={<Navigate to="/" />} />}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>
   );

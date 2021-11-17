@@ -8,7 +8,8 @@ import { AuthContext } from "../store/auth-context";
 import Message from "./UI/Message";
 
 const GalleryList = () => {
-  const message = "No Item uploaded.";
+  const message = "No Item uploaded";
+  const [init, setInit] = useState(true);
   const [query, setQuery] = useState("");
   const { uid } = useContext(AuthContext);
   const [list, setList] = useState([]);
@@ -37,8 +38,11 @@ const GalleryList = () => {
         setReload(false);
       })
       .catch((error) => setError(error))
-      .finally(() => setLoading(false));
-  }, [uid, reload]);
+      .finally(() => {
+        setInit(false);
+        setLoading(false);
+      });
+  }, [uid, reload, init]);
 
   const searchHandler = (e) => {
     e.preventDefault();
@@ -78,7 +82,7 @@ const GalleryList = () => {
           fileredList.map((item) => (
             <GalleryItem key={item.id} item={item} onDelete={deleteHandler} />
           ))}
-        {fileredList.length === 0 && <Message text={message} />}
+        {!init && fileredList.length === 0 && <Message text={message} />}
       </Row>
     </>
   );
