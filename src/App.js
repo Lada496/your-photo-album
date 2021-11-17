@@ -1,31 +1,30 @@
-import { useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import Layout from "./components/Layout/Layout";
-import HomePage from "./Pages/HomePage";
-import LandingPage from "./Pages/LandingPage";
-import SignupPage from "./Pages/SignupPage";
-
 import { firebaseConfig } from "./firebase/config";
-
-import { AuthContext } from "./store/auth-context";
+import SignupPage from "./Pages/SignupPage";
+import RequireAuth from "./components/Auth/RequireAuth";
 import NotFoundPage from "./Pages/NotFoundPage";
+import PublicPage from "./components/Public";
+import LoginPage from "./Pages/LoginPage";
+import ProtectedPage from "./Pages/ProtectedPage";
 initializeApp(firebaseConfig);
 function App() {
-  const { isAuth } = useContext(AuthContext);
   return (
     <Layout>
       <Routes>
-        {!isAuth && (
-          <>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="signup" element={<SignupPage />} />
-          </>
-        )}
-
-        {isAuth && <Route path="home/*" element={<HomePage />} />}
-        {isAuth && <Route path="/" element={<Navigate to="home" />} />}
+        <Route path="/" element={<PublicPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignupPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route
+          path="loggedin/*"
+          element={
+            <RequireAuth>
+              <ProtectedPage />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </Layout>
   );

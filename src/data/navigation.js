@@ -1,18 +1,26 @@
 export const homeNavigation = [
   {
     title: "Home",
-    url: "/home",
+    url: "/",
+  },
+  {
+    title: "Gallery",
+    url: "/loggedin/gallery",
   },
   {
     title: "Upload",
-    url: "home/upload",
+    url: "/loggedin/upload",
   },
 ];
 
 export const landingNavigation = [
   {
-    title: "Login",
+    title: "Home",
     url: "/",
+  },
+  {
+    title: "Login",
+    url: "/login",
   },
   {
     title: "Sign up",
