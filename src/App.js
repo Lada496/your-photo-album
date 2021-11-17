@@ -10,7 +10,6 @@ import { firebaseConfig } from "./firebase/config";
 import { AuthContext } from "./store/auth-context";
 function App() {
   const { isAuth } = useContext(AuthContext);
-  console.log(isAuth);
   return (
     <Layout>
       <Routes>
@@ -23,7 +22,7 @@ function App() {
 
         {isAuth && <Route path="home/*" element={<HomePage />} />}
         {isAuth && <Route path="/" element={<Navigate to="home" />} />}
-        
+        {!isAuth && <Route path="*" element={<Navigate to="/" />} />}
       </Routes>
     </Layout>
   );

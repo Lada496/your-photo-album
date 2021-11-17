@@ -47,3 +47,24 @@
     }
   }
 }
+
+.hover {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.loading {
+  display: flex;
+  width: fit-content;
+  margin: 1rem auto;
+  gap: 0.5rem;
+}
+
+.error {
+  color: #bf1650;
+  &::before {
+    display: inline;
+    content: "⚠ ";
+  }
+}
