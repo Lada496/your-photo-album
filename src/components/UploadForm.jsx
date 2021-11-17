@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { ref as dbRef, child, update, push } from "firebase/database";
-import { Card, Form } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { ProgressBar } from "react-bootstrap";
 import { AuthContext } from "../store/auth-context";
 import { storage } from "../firebase/config";

@@ -8,9 +8,11 @@
   position: relative;
   div {
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
+    animation-name: zoomin;
+    animation-duration: 3s;
     h1 {
       font-family: "Monsieur La Doulaise", cursive;
       font-size: 3rem;
@@ -29,5 +31,15 @@
       color: #333;
       text-decoration: none;
     }
+  }
+}
+
+@keyframes zoomin {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
   }
 }
