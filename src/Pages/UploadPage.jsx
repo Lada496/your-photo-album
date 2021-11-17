@@ -2,11 +2,7 @@ import React from "react";
 import UploadForm from "../components/UploadForm";
 
 const UploadPage = () => {
-  return (
-    <div>
-      <UploadForm />
-    </div>
-  );
+  return <UploadForm />;
 };
 
 export default UploadPage;
