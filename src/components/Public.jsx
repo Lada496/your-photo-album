@@ -10,7 +10,7 @@ const PublicPage = () => {
       style={{ backgroundImage: `url(${backgroundImg})` }}
     >
       <div>
-        <h1>Let's save your memory</h1>
+        <h1>Let's save your memories</h1>
         <Link to="/loggedin/gallery">
           <BsArrowRight />
           <span>Go to your gallery</span>
