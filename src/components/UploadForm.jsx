@@ -8,10 +8,11 @@ import { ProgressBar } from "react-bootstrap";
 import { AuthContext } from "../store/auth-context";
 import { storage } from "../firebase/config";
 import { db } from "../firebase/config";
+import axios from "axios";
 
 const UploadForm = () => {
   const navigate = useNavigate();
-  const { uid } = useContext(AuthContext);
+  const { uid, accessToken } = useContext(AuthContext);
   const [progress, setProgress] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
   const {
@@ -28,8 +29,7 @@ const UploadForm = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 99;
         setProgress(progress);
         switch (snapshot.state) {
           case "paused":
@@ -58,19 +58,30 @@ const UploadForm = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          e.target.reset();
-          const newPostKey = push(child(dbRef(db), `images/${uid}/`)).key;
-
-          const updates = {};
-          updates[`/images/${uid}/${newPostKey}`] = {
-            tag: data.tag,
-            imageUrl: url,
-          };
-
-          update(dbRef(db), updates);
-          alert("upload completed!");
-          setShowProgress(false);
-          navigate("/loggedin/gallery");
+          fetch(
+            `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                tag: data.tag,
+                imageUrl: url,
+              }),
+            }
+          )
+            .then((res) => {
+              if (!res.ok) {
+                throw Error();
+              }
+              setProgress(100);
+              alert("upload completed!");
+              setShowProgress(false);
+              navigate("/loggedin/gallery");
+              return res;
+            })
+            .catch((error) => alert("⚠ Upload failed"));
         });
       }
     );

@@ -24,22 +24,26 @@ const GalleryItem = ({ item, onDelete }) => {
       setLoading(true);
       const desertRef = ref(storage, item.imageUrl);
       deleteObject(desertRef)
-        .then(() => {
+        .then((res) => {
+          console.log(res);
           console.log("strage deletesuccess");
         })
         .catch((error) => {
-          setError(error);
+          setError("Delete failed");
         });
-      axios
-        .delete(
-          `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}/${item.id}.json?auth=${accessToken}`
-        )
+      fetch(
+        `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}/${item.id}.json?auth=${accessToken}`,
+        {
+          method: "DELETE",
+        }
+      )
         .then((res) => {
-          onDelete();
-          setShowModal(false);
+          if (!res.ok) {
+            throw Error();
+          }
+          return res;
         })
-        .catch((error) => setError(error))
-        .finally(() => setLoading(false));
+        .catch((error) => setError("Dalete failed"));
     }
   };
   return (
@@ -52,7 +56,7 @@ const GalleryItem = ({ item, onDelete }) => {
         centered
       >
         <Modal.Header closeButton>
-          {loading && <LoadingSpinner text="Deleting..." />}
+          {!error && loading && <LoadingSpinner text="Deleting..." />}
           {error && <p className="error">{error}</p>}
         </Modal.Header>
         <Modal.Body>

@@ -19,12 +19,16 @@ const GalleryList = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(
-        `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`
-      )
-      .then((response) => {
-        const data = response.data;
+    fetch(
+      `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw Error();
+        }
+        return res.json();
+      })
+      .then((data) => {
         let loadedList = [];
         for (const key in data) {
           loadedList.push({
@@ -37,7 +41,9 @@ const GalleryList = () => {
         setFilteredList(loadedList);
         setReload(false);
       })
-      .catch((error) => setError(error))
+      .catch((error) => {
+        setError("⚠ Data fetch failed");
+      })
       .finally(() => {
         setInit(false);
         setLoading(false);
@@ -59,7 +65,6 @@ const GalleryList = () => {
   return (
     <>
       {loading && <LoadingSpinner text="Loading..." />}
-      {error && <p style={{ textAlign: "center" }}>{error}</p>}
       <Form
         className="d-flex"
         style={{ width: "18rem", margin: "1rem auto 0 auto" }}
@@ -82,7 +87,10 @@ const GalleryList = () => {
           fileredList.map((item) => (
             <GalleryItem key={item.id} item={item} onDelete={deleteHandler} />
           ))}
-        {!init && fileredList.length === 0 && <Message text={message} />}
+        {!init && !error && fileredList.length === 0 && (
+          <Message text={message} />
+        )}
+        {error && <Message text={error} />}
       </Row>
     </>
   );
