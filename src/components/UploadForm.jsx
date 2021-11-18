@@ -70,7 +70,7 @@ const UploadForm = () => {
           update(dbRef(db), updates);
           alert("upload completed!");
           setShowProgress(false);
-          navigate("/home");
+          navigate("/loggedin/gallery");
         });
       }
     );
