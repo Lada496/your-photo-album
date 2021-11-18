@@ -2,12 +2,10 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { ref as dbRef, child, update, push } from "firebase/database";
 import { Card } from "react-bootstrap";
 import { ProgressBar } from "react-bootstrap";
 import { AuthContext } from "../store/auth-context";
 import { storage } from "../firebase/config";
-import { db } from "../firebase/config";
 import axios from "axios";
 
 const UploadForm = () => {
@@ -58,30 +56,25 @@ const UploadForm = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          fetch(
-            `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
+          axios
+            .post(
+              `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`,
+              {
                 tag: data.tag,
                 imageUrl: url,
-              }),
-            }
-          )
-            .then((res) => {
-              if (!res.ok) {
-                throw Error();
               }
+            )
+            .then((res) => {
               setProgress(100);
               alert("upload completed!");
               setShowProgress(false);
               navigate("/loggedin/gallery");
-              return res;
             })
-            .catch((error) => alert("⚠ Upload failed"));
+            .catch((error) => {
+              setProgress(0);
+              setShowProgress(false);
+              alert("⚠ Upload failed");
+            });
         });
       }
     );

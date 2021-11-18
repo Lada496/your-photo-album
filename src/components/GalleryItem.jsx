@@ -31,19 +31,16 @@ const GalleryItem = ({ item, onDelete }) => {
         .catch((error) => {
           setError("Delete failed");
         });
-      fetch(
-        `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}/${item.id}.json?auth=${accessToken}`,
-        {
-          method: "DELETE",
-        }
-      )
+      axios
+        .delete(
+          `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}/${item.id}.json?auth=${accessToken}`
+        )
         .then((res) => {
-          if (!res.ok) {
-            throw Error();
-          }
-          return res;
+          onDelete();
+          setShowModal(false);
         })
-        .catch((error) => setError("Dalete failed"));
+        .catch((error) => setError("Delete failed"))
+        .finally(() => setLoading(false));
     }
   };
   return (

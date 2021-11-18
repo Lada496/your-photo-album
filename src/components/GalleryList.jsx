@@ -19,16 +19,12 @@ const GalleryList = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    fetch(
-      `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw Error();
-        }
-        return res.json();
-      })
-      .then((data) => {
+    axios
+      .get(
+        `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`
+      )
+      .then((response) => {
+        const data = response.data;
         let loadedList = [];
         for (const key in data) {
           loadedList.push({
@@ -41,9 +37,7 @@ const GalleryList = () => {
         setFilteredList(loadedList);
         setReload(false);
       })
-      .catch((error) => {
-        setError("⚠ Data fetch failed");
-      })
+      .catch((error) => setError("⚠ Data fetch failed"))
       .finally(() => {
         setInit(false);
         setLoading(false);
