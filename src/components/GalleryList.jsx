@@ -11,7 +11,7 @@ const GalleryList = () => {
   const message = "No Item uploaded";
   const [init, setInit] = useState(true);
   const [query, setQuery] = useState("");
-  const { uid } = useContext(AuthContext);
+  const { uid, accessToken } = useContext(AuthContext);
   const [list, setList] = useState([]);
   const [fileredList, setFilteredList] = useState([]);
   const [reload, setReload] = useState(false);
@@ -21,7 +21,7 @@ const GalleryList = () => {
     setLoading(true);
     axios
       .get(
-        `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json`
+        `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`
       )
       .then((response) => {
         const data = response.data;

@@ -8,7 +8,7 @@ import { BsFillTrashFill } from "react-icons/bs";
 import LoadingSpinner from "./UI/LoadingSpinner";
 
 const GalleryItem = ({ item, onDelete }) => {
-  const { uid } = useContext(AuthContext);
+  const { uid, accessToken } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -32,7 +32,7 @@ const GalleryItem = ({ item, onDelete }) => {
         });
       axios
         .delete(
-          `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}/${item.id}.json`
+          `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}/${item.id}.json?auth=${accessToken}`
         )
         .then((res) => {
           onDelete();

@@ -22,8 +22,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const user = userCredential.user;
-
-        login(user.uid);
+        login(user.uid, user.auth.currentUser.accessToken);
         navigate("/loggedin/gallery", { replace: true });
       })
       .catch((error) => {
