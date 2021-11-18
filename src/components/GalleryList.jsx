@@ -42,7 +42,7 @@ const GalleryList = () => {
         setInit(false);
         setLoading(false);
       });
-  }, [uid, reload]);
+  }, [uid, reload, accessToken]);
 
   const searchHandler = (e) => {
     e.preventDefault();

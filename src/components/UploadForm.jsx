@@ -27,31 +27,27 @@ const UploadForm = () => {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 99;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 99.9;
         setProgress(progress);
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
       },
       (error) => {
         switch (error.code) {
           case "storage/unauthorized":
             // User doesn't have permission to access the object
+            alert("⚠ Access denied");
             break;
           case "storage/canceled":
             // User canceled the upload
+            alert("⚠ Upload canceled");
             break;
-
-          // ...
 
           case "storage/unknown":
             // Unknown error occurred, inspect error.serverResponse
+            alert("⚠ Unknown error occurred");
             break;
+          default:
+            alert("⚠ Upload failed");
         }
       },
       () => {

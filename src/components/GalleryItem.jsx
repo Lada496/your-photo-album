@@ -25,7 +25,6 @@ const GalleryItem = ({ item, onDelete }) => {
       const desertRef = ref(storage, item.imageUrl);
       deleteObject(desertRef)
         .then((res) => {
-          console.log(res);
           console.log("strage deletesuccess");
         })
         .catch((error) => {
