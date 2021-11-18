@@ -1,4 +1,4 @@
-# React based To-do list with Authentication
+# Your Photo Album
 
 ## Description
 
@@ -9,15 +9,12 @@ A personal photo storage with a searching feature.
 - React
 - React Hooks
 - React Router
-
-* useForm
-* context API
-
+- useForm
+- context API
 - Sass
-
-* React Bootstrap
-* Axios
-* Firebase
+- React Bootstrap
+- Axios
+- Firebase
 
 ## Future Plans
 
