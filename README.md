@@ -24,4 +24,4 @@ A personal photo storage with a searching feature.
 
 ## Link
 
-- Demo: https://your-phoro-album-db1aeb.netlify.app/
+- Demo: https://your-photo-album-db1aeb.netlify.app
