@@ -2,16 +2,15 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { ref as dbRef, child, update, push } from "firebase/database";
 import { Card } from "react-bootstrap";
 import { ProgressBar } from "react-bootstrap";
 import { AuthContext } from "../store/auth-context";
 import { storage } from "../firebase/config";
-import { db } from "../firebase/config";
+import axios from "axios";
 
 const UploadForm = () => {
   const navigate = useNavigate();
-  const { uid } = useContext(AuthContext);
+  const { uid, accessToken } = useContext(AuthContext);
   const [progress, setProgress] = useState(0);
   const [showProgress, setShowProgress] = useState(false);
   const {
@@ -29,48 +28,49 @@ const UploadForm = () => {
       "state_changed",
       (snapshot) => {
         const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 99.9;
         setProgress(progress);
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
       },
       (error) => {
         switch (error.code) {
           case "storage/unauthorized":
             // User doesn't have permission to access the object
+            alert("⚠ Access denied");
             break;
           case "storage/canceled":
             // User canceled the upload
+            alert("⚠ Upload canceled");
             break;
-
-          // ...
 
           case "storage/unknown":
             // Unknown error occurred, inspect error.serverResponse
+            alert("⚠ Unknown error occurred");
             break;
+          default:
+            alert("⚠ Upload failed");
         }
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          e.target.reset();
-          const newPostKey = push(child(dbRef(db), `images/${uid}/`)).key;
-
-          const updates = {};
-          updates[`/images/${uid}/${newPostKey}`] = {
-            tag: data.tag,
-            imageUrl: url,
-          };
-
-          update(dbRef(db), updates);
-          alert("upload completed!");
-          setShowProgress(false);
-          navigate("/loggedin/gallery");
+          axios
+            .post(
+              `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`,
+              {
+                tag: data.tag,
+                imageUrl: url,
+              }
+            )
+            .then((res) => {
+              setProgress(100);
+              alert("upload completed!");
+              setShowProgress(false);
+              navigate("/loggedin/gallery");
+            })
+            .catch((error) => {
+              setProgress(0);
+              setShowProgress(false);
+              alert("⚠ Upload failed");
+            });
         });
       }
     );

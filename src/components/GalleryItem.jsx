@@ -24,11 +24,11 @@ const GalleryItem = ({ item, onDelete }) => {
       setLoading(true);
       const desertRef = ref(storage, item.imageUrl);
       deleteObject(desertRef)
-        .then(() => {
+        .then((res) => {
           console.log("strage deletesuccess");
         })
         .catch((error) => {
-          setError(error);
+          setError("Delete failed");
         });
       axios
         .delete(
@@ -38,7 +38,7 @@ const GalleryItem = ({ item, onDelete }) => {
           onDelete();
           setShowModal(false);
         })
-        .catch((error) => setError(error))
+        .catch((error) => setError("Delete failed"))
         .finally(() => setLoading(false));
     }
   };
@@ -52,7 +52,7 @@ const GalleryItem = ({ item, onDelete }) => {
         centered
       >
         <Modal.Header closeButton>
-          {loading && <LoadingSpinner text="Deleting..." />}
+          {!error && loading && <LoadingSpinner text="Deleting..." />}
           {error && <p className="error">{error}</p>}
         </Modal.Header>
         <Modal.Body>

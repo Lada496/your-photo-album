@@ -37,12 +37,12 @@ const GalleryList = () => {
         setFilteredList(loadedList);
         setReload(false);
       })
-      .catch((error) => setError(error))
+      .catch((error) => setError("⚠ Data fetch failed"))
       .finally(() => {
         setInit(false);
         setLoading(false);
       });
-  }, [uid, reload]);
+  }, [uid, reload, accessToken]);
 
   const searchHandler = (e) => {
     e.preventDefault();
@@ -59,7 +59,6 @@ const GalleryList = () => {
   return (
     <>
       {loading && <LoadingSpinner text="Loading..." />}
-      {error && <p style={{ textAlign: "center" }}>{error}</p>}
       <Form
         className="d-flex"
         style={{ width: "18rem", margin: "1rem auto 0 auto" }}
@@ -82,7 +81,10 @@ const GalleryList = () => {
           fileredList.map((item) => (
             <GalleryItem key={item.id} item={item} onDelete={deleteHandler} />
           ))}
-        {!init && fileredList.length === 0 && <Message text={message} />}
+        {!init && !error && fileredList.length === 0 && (
+          <Message text={message} />
+        )}
+        {error && <Message text={error} />}
       </Row>
     </>
   );
