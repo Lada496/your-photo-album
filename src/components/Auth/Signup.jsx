@@ -4,11 +4,13 @@ import { getAuth, createUserWithEmailAndPassword } from "@firebase/auth";
 import { useForm } from "react-hook-form";
 import { Card } from "react-bootstrap";
 import { AuthContext } from "../../store/auth-context";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [signupError, setSignupError] = useState(null);
   const [passwordInput, setPasswordInput] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const auth = getAuth();
   const {
@@ -20,6 +22,7 @@ const Signup = () => {
     mode: "onBlur", // "onChange"
   });
   const onSubmit = (data, e) => {
+    setLoading(true);
     createUserWithEmailAndPassword(auth, data.email, data.password1)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -29,7 +32,8 @@ const Signup = () => {
       .catch((error) => {
         const errorMessage = error.message;
         setSignupError(errorMessage);
-      });
+      })
+      .finally(() => setLoading(false));
     e.target.reset();
   };
 
@@ -47,6 +51,7 @@ const Signup = () => {
           Sign Up
         </Card.Title>
         <Card.Body style={{ backgroundColor: "white" }}>
+          {loading && <LoadingSpinner text="Processing" />}
           <div className="form">
             <form onSubmit={handleSubmit(onSubmit)}>
               {signupError && <p>{signupError}</p>}

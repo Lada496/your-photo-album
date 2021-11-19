@@ -5,12 +5,14 @@ import { useForm } from "react-hook-form";
 import { Card } from "react-bootstrap";
 import { AuthContext } from "../../store/auth-context";
 import { Link } from "react-router-dom";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const auth = getAuth();
   const [loginError, setLoginError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     formState: { errors },
@@ -19,6 +21,7 @@ const Login = () => {
     mode: "onBlur", // "onChange"
   });
   const onSubmit = (data, e) => {
+    setLoading(true);
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -28,7 +31,8 @@ const Login = () => {
       .catch((error) => {
         const errorMessage = error.message;
         setLoginError(errorMessage);
-      });
+      })
+      .finally(() => setLoading(false));
 
     e.target.reset();
   };
@@ -42,6 +46,7 @@ const Login = () => {
           Login
         </Card.Title>
         <Card.Body style={{ backgroundColor: "white" }}>
+          {loading && <LoadingSpinner text="Checking" />}
           <div className="form">
             <form onSubmit={handleSubmit(onSubmit)}>
               {loginError && <p>{loginError}</p>}

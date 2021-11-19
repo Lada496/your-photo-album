@@ -3,7 +3,7 @@ import React from "react";
 const Message = ({ text }) => {
   return (
     <div className="message">
-      <p>{text}</p>
+      <p className="text">{text}</p>
     </div>
   );
 };
