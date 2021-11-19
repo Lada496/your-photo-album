@@ -58,7 +58,7 @@ const UploadForm = () => {
         switch (error.code) {
           case "storage/unauthorized":
             // User doesn't have permission to access the object
-            alert("⚠ Access denied");
+            alert("⚠ Access denied. Relogin and try again!");
             break;
           case "storage/canceled":
             // User canceled the upload
