@@ -20,6 +20,29 @@ const UploadForm = () => {
   } = useForm({
     mode: "onChange", // "onChange"
   });
+  const successHandler = async () => {
+    setProgress(100);
+    alert("upload completed!");
+    setShowProgress(false);
+    navigate("/loggedin/gallery");
+  };
+  const uploadDB = async (snapshot, tagData) => {
+    const url = await getDownloadURL(snapshot);
+    try {
+      await axios.post(
+        `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`,
+        {
+          tag: tagData,
+          imageUrl: url,
+        }
+      );
+      await successHandler();
+    } catch (error) {
+      setProgress(0);
+      setShowProgress(false);
+      alert("⚠ Upload failed");
+    }
+  };
   const onSubmit = (data, e) => {
     setShowProgress(true);
     const storageRef = ref(storage, `/images/${uid}/${data.image[0].name}`);
@@ -51,27 +74,13 @@ const UploadForm = () => {
         }
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          axios
-            .post(
-              `https://your-photo-album-default-rtdb.firebaseio.com/images/${uid}.json?auth=${accessToken}`,
-              {
-                tag: data.tag,
-                imageUrl: url,
-              }
-            )
-            .then((res) => {
-              setProgress(100);
-              alert("upload completed!");
-              setShowProgress(false);
-              navigate("/loggedin/gallery");
-            })
-            .catch((error) => {
-              setProgress(0);
-              setShowProgress(false);
-              alert("⚠ Upload failed");
-            });
-        });
+        try {
+          uploadDB(uploadTask.snapshot.ref, data.tag);
+        } catch (error) {
+          setProgress(0);
+          setShowProgress(false);
+          alert("⚠ Upload failed");
+        }
       }
     );
   };
