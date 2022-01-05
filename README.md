@@ -4,6 +4,12 @@
 
 A personal photo storage with a searching feature.
 
+## Screenshots
+<img width="888" alt="Screen Shot 2022-01-04 at 21 53 18" src="https://user-images.githubusercontent.com/67321065/148167810-451f742c-9e6b-4a2f-86d9-40b615b81c56.png">
+<img width="887" alt="Screen Shot 2022-01-04 at 21 53 39" src="https://user-images.githubusercontent.com/67321065/148167892-48d75c5b-709d-49e1-b1e4-f4de1ac7485b.png">
+<img width="510" alt="Screen Shot 2022-01-04 at 21 54 59" src="https://user-images.githubusercontent.com/67321065/148167912-d71d87ed-4dcb-4457-b713-9de94a633040.png">
+<img width="501" alt="Screen Shot 2022-01-04 at 21 55 23" src="https://user-images.githubusercontent.com/67321065/148167931-d675c2b1-e5be-4cd7-b407-031641307336.png">
+
 ## Stack
 
 - React
