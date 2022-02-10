@@ -34,4 +34,5 @@ A personal photo storage with a searching feature.
 
 - Reference:
   - https://github.com/react-hook-form/react-hook-form/tree/master/examples
+  - https://reactrouter.com/docs/en/v6/examples/auth
   - https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth?file=src%2FApp.tsx
