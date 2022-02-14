@@ -23,7 +23,7 @@ I decided to create this website as a personal photo album.
 ## Challenging parts
 * Implementation of public page and private page depending on users login status: I refered [this react router page](https://reactrouter.com/docs/en/v6/examples/auth) and [this example](https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth?file=src/App.tsx)
 * Use new tools such as axios and useForm hook: I wrote aricles about them respectively ([Comparison between fetch and axios
-](https://dev.to/lada496/comparison-between-fetch-and-axios-4np2), [Form management with useForm (error messaging and data validation)](https://medium.com/@lada496/react-hooks-useform-bd6b91fd9637))
+](https://dev.to/lada496/comparison-between-fetch-and-axios-4np2), [Form management with useForm (error messaging and data validation)](https://dev.to/lada496/form-management-with-useform-error-messaging-and-data-validation-711))
 
 ## Screenshots
 <img width="888" alt="Screen Shot 2022-01-04 at 21 53 18" src="https://user-images.githubusercontent.com/67321065/148167810-451f742c-9e6b-4a2f-86d9-40b615b81c56.png">
