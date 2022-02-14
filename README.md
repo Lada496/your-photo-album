@@ -22,7 +22,7 @@ A personal photo storage with a searching feature.
 I decided to create this website as a personal photo album.
 ## Challenging parts
 * Implementation of public page and private page depending on users login status: I refered [this react router page](https://reactrouter.com/docs/en/v6/examples/auth) and [this example](https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth?file=src/App.tsx)
-* Tryed new tools such as axios and useForm hook: I wrote aricles about them respectively ([Comparison between fetch and axios
+* Use new tools such as axios and useForm hook: I wrote aricles about them respectively ([Comparison between fetch and axios
 ](https://dev.to/lada496/comparison-between-fetch-and-axios-4np2), [Form management with useForm (error messaging and data validation)](https://medium.com/@lada496/react-hooks-useform-bd6b91fd9637))
 
 ## Screenshots
